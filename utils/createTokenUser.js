@@ -1,6 +1,6 @@
 const createTokenUser = (user) => {
-    const {name,email,role,userId} = user;
-    const tokenUser = {user:{name,email, role, userId}}
+    const { name, email, role, _id } = user;
+    const tokenUser = { user: { name, email, role, userId: _id } };
     return tokenUser;
 }
 

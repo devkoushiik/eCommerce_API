@@ -7,7 +7,7 @@ const { authenticationUser, authenticationAdmin } = require('../middleware/authe
 router.route('/').get([authenticationUser,authenticationAdmin('admin')],getAllUsers);
 
 router.route('/showMe').get(authenticationUser,showCurrentUser);
-router.route('/updateUser').patch(updateUser);
+router.route("/updateUser").patch(authenticationUser, updateUser);
 router.route('/updateUserPassword').patch(authenticationUser,updateUserPassword);
 
 router.route('/:id').get(authenticationUser,getSingleUser);
