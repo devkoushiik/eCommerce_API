@@ -8,12 +8,12 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 const morgan = require('morgan');
 const authRouter = require('./router/auth_router');
 const userRouter = require('./router/user_router');
-const cookieParser = require('cookie-parser');
-
+const productRouter = require("./router/product_router");
+const cookieParser = require("cookie-parser");
 
 // middleware
-app.use(morgan('tiny'))
-app.use(express.static('./public'));
+app.use(morgan("tiny"));
+app.use(express.static("./public"));
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 
@@ -21,8 +21,9 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.get("/", async (req, res) => {
   res.send("Server is running ....");
 });
-app.use('/api/v1/auth',authRouter)
-app.use('/api/v1/users',userRouter)
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/products", productRouter);
 // error
 app.use(notFound);
 app.use(errorHandlerMiddleware);
