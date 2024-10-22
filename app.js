@@ -10,13 +10,14 @@ const authRouter = require('./router/auth_router');
 const userRouter = require('./router/user_router');
 const productRouter = require("./router/product_router");
 const cookieParser = require("cookie-parser");
+const fileupload = require("express-fileupload");
 
 // middleware
 app.use(morgan("tiny"));
 app.use(express.static("./public"));
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
-
+app.use(fileupload());
 // router
 app.get("/", async (req, res) => {
   res.send("Server is running ....");
