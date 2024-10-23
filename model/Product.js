@@ -1,12 +1,12 @@
-const { required } = require("joi");
 const mongoose = require("mongoose");
-const userSchema = new mongoose.Schema(
+
+const productSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       trim: true,
       required: [true, "Please provide product name"],
-      maxlength: [100, "Product name cannot be more than 100 characters"],
+      maxlength: [100, "Name can not be more than 100 characters"],
     },
     price: {
       type: Number,
@@ -16,14 +16,11 @@ const userSchema = new mongoose.Schema(
     description: {
       type: String,
       required: [true, "Please provide product description"],
-      maxlength: [
-        1000,
-        "Product description cannot be more than 1000 characters",
-      ],
+      maxlength: [1000, "Description can not be more than 1000 characters"],
     },
     image: {
       type: String,
-      default: "/uploads/example.png",
+      default: "/uploads/example.jpeg",
     },
     category: {
       type: String,
@@ -60,8 +57,12 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    numOfReviews: {
+      type: Number,
+      default: 0,
+    },
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Types.ObjectId,
       ref: "User",
       required: true,
     },
@@ -69,4 +70,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Product", userSchema);
+module.exports = mongoose.model("Product", productSchema);

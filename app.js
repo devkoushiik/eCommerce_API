@@ -8,8 +8,9 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 const morgan = require('morgan');
 const authRouter = require('./router/auth_router');
 const userRouter = require('./router/user_router');
-const productRouter = require("./router/product_router");
 const cookieParser = require("cookie-parser");
+const productRouter = require("./router/product_router");
+const reviewRouter = require("./router/review_router");
 const fileupload = require("express-fileupload");
 
 // middleware
@@ -20,11 +21,14 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.use(fileupload());
 // router
 app.get("/", async (req, res) => {
+  // console.log(req.signedCookies);
   res.send("Server is running ....");
 });
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/products", productRouter);
+app.use("/api/v1/reviews", reviewRouter);
+
 // error
 app.use(notFound);
 app.use(errorHandlerMiddleware);
