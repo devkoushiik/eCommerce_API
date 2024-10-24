@@ -10,6 +10,7 @@ const {
 } = require("../controller/review_controller");
 
 router.route("/").post(authenticationUser, createReview).get(getAllReview);
+
 router
   .route("/:id")
   .get(getSingleReview)
