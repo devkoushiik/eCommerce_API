@@ -8,7 +8,6 @@ const createJWT = ({payload}) => {
 }
 
 const attachCookiesToResponse = ({ res, user }) => {
-  // console.log(user);
   const token = createJWT({ payload: user });
   const oneDay = 1000 * 60 * 60 * 24;
   // setting cokkie
@@ -18,11 +17,9 @@ const attachCookiesToResponse = ({ res, user }) => {
     secure: process.env.NODE_ENV === "production",
     signed: true,
   });
-  //   console.log("res.cookies : ", res.cookies);
 };
 
 const isTokenValid = ({ token }) => {
-  console.log("validity token : ", token);
   return jwt.verify(token, process.env.JWT_SECRET);
 };
   

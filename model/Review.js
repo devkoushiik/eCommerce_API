@@ -18,7 +18,7 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide review text"],
     },
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,

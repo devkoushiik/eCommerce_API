@@ -18,7 +18,7 @@ const getSingleUser = async (req, res) => {
   if (!user) {
     throw new CustomError.NotFoundError("User not found");
   }
-  checkPermission(user._id,req.user);
+  checkPermission(req.user, user._id);
   res.status(StatusCodes.OK).json(user);
 };
 const showCurrentUser = async (req, res) => {
@@ -27,12 +27,11 @@ const showCurrentUser = async (req, res) => {
 // using save method to update user
 // you have to update user manually
 const updateUser = async (req, res) => {
-  console.log(req.user)
   const { name, email } = req.body;
   if (!name || !email) {
     throw new CustomError.BadRequestError("Please provide name and email");
   }
-  const user = await User.findOne({_id:req.user.userId});
+  const user = await User.findOne({ _id: req.user.userId });
 
   user.email = email;
   user.name = name;

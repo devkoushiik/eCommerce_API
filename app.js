@@ -21,7 +21,6 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.use(fileupload());
 // router
 app.get("/", async (req, res) => {
-  // console.log(req.signedCookies);
   res.send("Server is running ....");
 });
 app.use("/api/v1/auth", authRouter);

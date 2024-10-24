@@ -20,8 +20,6 @@ const registerController = async (req, res) => {
   const tokenUser = createTokenUser(user);
   // create cookie and attach function
   attachCookiesToResponse({ res, user: tokenUser });
-  // check
-  console.log("req.signedCokies : ", req.signedCookies);
   res.status(StatusCodes.CREATED).json({ user: tokenUser });
 };
 
@@ -39,9 +37,7 @@ const loginController = async (req, res) => {
     throw new CustomError.UnauthenticatedError("Invalid email or password");
   }
   const tokenUser = createTokenUser(user);
-  // console.log(tokenUser);
   attachCookiesToResponse({ res, user: tokenUser });
-  console.log("login/req.user : ", req.user);
   res.status(StatusCodes.OK).json({ user: tokenUser });
 };
 

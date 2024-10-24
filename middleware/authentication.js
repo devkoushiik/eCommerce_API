@@ -2,13 +2,11 @@ const CustomError = require('../errors');
 const { isTokenValid } = require('../utils/jwt');
 const authenticationUser = async (req, res, next) => {
     const token = req.signedCookies.token;
-    console.log("token : ", token);
     if (!token) {
       throw new CustomError.UnauthenticatedError("Authentication invalid");
     }
     try {
       const userToken = isTokenValid({ token });
-      console.log("userToken : ", userToken);
       req.user = userToken;
       next();
     } catch (error) {

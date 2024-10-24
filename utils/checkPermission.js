@@ -1,9 +1,7 @@
 const Unauthorized = require("../errors/unauthorized");
-const checkPermission = (userId, tokenUser) => {
-  //   console.log(userId, tokenUser);
-  //   console.log(userId.toString());
-  if (tokenUser.role === "admin") return;
-  if (tokenUser.userId === userId.toString()) return;
+const checkPermission = (requestUser, resourceUserId) => {
+  if (requestUser.role === "admin") return;
+  if (requestUser.userId === resourceUserId.toString()) return;
   throw new Unauthorized("Not authorized to access this route");
 };
 module.exports = checkPermission;
