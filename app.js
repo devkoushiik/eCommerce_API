@@ -13,6 +13,25 @@ const cookieParser = require("cookie-parser");
 const productRouter = require("./router/product_router");
 const reviewRouter = require("./router/review_router");
 const fileupload = require("express-fileupload");
+// api security
+const helmet = require("helmet");
+const xss = require('xss-clean');
+const rateLimiter = require('express-rate-limit');
+const cors = require('cors');
+const mongoSanitize = require('express-mongo-sanitize');
+
+// API Security
+app.set("trust proxy", 1);
+app.use(rateLimiter({
+  windowMs: 15 * 60 * 1000, 
+  max: 60
+}));
+app.use(cors());
+app.use(helmet());
+app.use(xss());
+app.use(mongoSanitize())
+
+
 
 // middleware
 app.use(morgan("tiny"));
@@ -20,6 +39,9 @@ app.use(express.static("./public"));
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(fileupload());
+
+
+
 // router
 app.get("/", async (req, res) => {
   res.send("Server is running ....");
