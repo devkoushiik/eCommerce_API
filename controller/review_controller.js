@@ -16,7 +16,7 @@ const createReview = async (req, res) => {
   }
   const alreadySubmittedReview = await Review.findOne({
     product: productId,
-    userId: req.user.userId,
+    user: req.user.userId,
   });
   if (alreadySubmittedReview) {
     throw new CustomError.BadRequestError(
@@ -25,7 +25,7 @@ const createReview = async (req, res) => {
   }
   // either create new object or modify req.body
   // we chose modify req.body
-  req.body.userId = req.user.userId;
+  req.body.user = req.user.userId;
   const review = await Review.create(req.body);
   res.status(StatusCodes.CREATED).json({ review });
 };
@@ -57,7 +57,7 @@ const updateReview = async (req, res) => {
     );
   }
   // check permission
-  checkPermission(req.user, review.userId);
+  checkPermission(req.user, review.user);
   review.title = title;
   review.comment = comment;
   review.rating = rating;
@@ -74,9 +74,15 @@ const deleteReview = async (req, res) => {
     );
   }
   // check permission
-  checkPermission(req.user, review.userId);
+  checkPermission(req.user, review.user);
   await review.remove();
   res.status(StatusCodes.OK).json({ msg: "delete success" });
+};
+
+const getSingleProductReviews = async (req, res) => {
+  const { id: productId } = req.params;
+  const reviews = await Review.find({ product: productId });
+  res.status(StatusCodes.OK).json({ count: reviews.length, reviews });
 };
 
 module.exports = {
@@ -85,4 +91,5 @@ module.exports = {
   updateReview,
   getSingleReview,
   deleteReview,
+  getSingleProductReviews,
 };

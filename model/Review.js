@@ -18,7 +18,7 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide review text"],
     },
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -33,7 +33,48 @@ const reviewSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
+// one product one review | index property must match with model property, like user and product.
 reviewSchema.index({ product: 1, user: 1 }, { unique: true });
+
+reviewSchema.statics.calculateAverageRating = async function (productId) {
+  const result = await this.aggregate([
+    {
+      $match: {
+        product: productId,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        averageRating: {
+          $avg: "$rating",
+        },
+        numOfReviews: {
+          $sum: 1,
+        },
+      },
+    },
+  ]);
+  console.log(result);
+  try {
+    await this.model("Product").findOneAndUpdate(
+      { _id: productId },
+      {
+        averageRating: Math.ceil(result[0]?.averageRating || 0),
+        numOfReviews: result[0]?.numOfReviews || 0,
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+reviewSchema.post("save", async function () {
+  await this.constructor.calculateAverageRating(this.product);
+});
+
+reviewSchema.post("remove", async function () {
+  await this.constructor.calculateAverageRating(this.product);
+});
 
 module.exports = mongoose.model("Review", reviewSchema);

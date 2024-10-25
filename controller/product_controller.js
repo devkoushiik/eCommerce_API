@@ -13,7 +13,7 @@ const getAllProducts = async (req, res) => {
 
 const getSingleProduct = async (req, res) => {
   const productId = req.params.id;
-  const product = await Product.findOne({ _id: productId });
+  const product = await Product.findOne({ _id: productId }).populate("reviews");
   res.status(StatusCodes.OK).json({ product });
 };
 
@@ -39,6 +39,7 @@ const deleteProduct = async (req, res) => {
       `Product not found with id : ${productId}`
     );
   }
+  // that can trigger .pre hooks.
   await product.remove();
   res.status(StatusCodes.OK).json({ msg: "Success! Product removed." });
 };
