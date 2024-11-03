@@ -1,4 +1,5 @@
 # Live link
 URL - https://ecommerce-api-o59c.onrender.com
-## visit this link for all info.
+/api/v1/products (add this after url)
+(use POSTMAN or Other API testing tools)
 ### Thanks.
