@@ -1,5 +1,6 @@
 # Live link
 URL - https://ecommerce-api-o59c.onrender.com
-/api/v1/products (add this after url)
+## Sample URL
+https://ecommerce-api-o59c.onrender.com/api/v1/products
 (use POSTMAN or Other API testing tools)
 ### Thanks.
